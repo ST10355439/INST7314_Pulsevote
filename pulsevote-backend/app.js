@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors'); 
-const helmet = require('helmet'); // this will be discussed later
+const helmet = require('helmet');
 const dotenv = require('dotenv');
 const authRoutes = require("./routes/authRoutes");
 const { protect } = require("./middleware/authMiddleware");
@@ -10,6 +10,19 @@ dotenv.config();
 const app = express();
 
 app.use(helmet());
+app.use(
+helmet.contentSecurityPolicy({
+    directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "https://apis.google.com"],
+    styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+    fontSrc: ["'self'", "https://fonts.gstatic.com"],
+    imgSrc: ["'self'", "data:"],
+    connectSrc: ["'self'", "http://localhost:5000"], // or whichever port you use
+    },
+})
+);
+
 app.use(cors({
   origin: "https://localhost:5173",
   credentials: true
