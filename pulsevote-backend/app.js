@@ -52,4 +52,10 @@ app.get("/api/protected", protect, (req, res) => {
   });
 });
 
+app.get('/health', (req, res) => 
+res.status(200).json({
+    ok: true,
+    ts: Date.now()
+}));
+
 module.exports = app;
