@@ -11,6 +11,8 @@ dotenv.config();
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 app.use(helmet());
 app.use(
 helmet.contentSecurityPolicy({
@@ -30,16 +32,17 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/organisations", organisationRoutes);
 app.use("/api/polls", pollRoutes);
 
 app.get('/', (req, res) => {
-res.send('PulseVote API running!');
+  res.send('PulseVote API running!');
 });
 
 app.get('/test', (req, res) => {
-    res.send('Testing PulseVote API!');
+  res.send('Testing PulseVote API!');
 });
 
 app.get("/api/protected", protect, (req, res) => {
